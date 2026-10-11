@@ -160,12 +160,13 @@
                       <span>{{ block.settings.one_time_label | escape }}</span>
                     </label>
                   {%- endunless -%}
+                  {%- assign plan_selected = false -%}
                   {%- for group in product.selling_plan_groups -%}
                     {%- for plan in group.selling_plans -%}
                       {%- assign plan_allocation = current_variant.selling_plan_allocations | where: 'selling_plan_id', plan.id | first -%}
                       {%- if plan_allocation -%}
                         <label class="selling-plan__option">
-                          <input type="radio" name="selling_plan" value="{{ plan.id }}" form="{{ product_form_id }}"{% if current_variant.requires_selling_plan and forloop.first %} checked{% endif %}>
+                          <input type="radio" name="selling_plan" value="{{ plan.id }}" form="{{ product_form_id }}"{% if current_variant.requires_selling_plan and plan_selected == false %} checked{% assign plan_selected = true %}{% endif %}>
                           <span>{{ plan.name | escape }}</span>
                         </label>
                       {%- endif -%}
